@@ -1,0 +1,535 @@
+openapi: 3.0.0
+info:
+  description: |
+    YOLO!
+  title: Sumo Logic API
+  version: 1.0.0
+  x-logo:
+    url: ./sumologic_logo.png
+servers:
+- description: AU deployment API server
+  url: https://api.au.sumologic.com/api/
+- description: CA deployment API server
+  url: https://api.ca.sumologic.com/api/
+- description: DE deployment API server
+  url: https://api.de.sumologic.com/api/
+- description: EU deployment API server
+  url: https://api.eu.sumologic.com/api/
+- description: FED deployment API server
+  url: https://api.fed.sumologic.com/api/
+- description: JP deployment API server
+  url: https://api.jp.sumologic.com/api/
+- description: IN deployment API server
+  url: https://api.in.sumologic.com/api/
+- description: US1 deployment API server
+  url: https://api.sumologic.com/api/
+- description: US2 deployment API server
+  url: https://api.us2.sumologic.com/api/
+security:
+- basicAuth: []
+paths:
+  /v1/search/jobs:
+    post:
+      description: Initiate a Sumo Logic Search Job.
+      operationId: createSearchJob
+      responses:
+        "202":
+          description: The search job has been successfully created.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Operation failed with an error.
+      summary: Create a Search Job.
+      tags: []
+  /v1/search/jobs/{searchJobId}:
+    delete:
+      description: Delete a search job by job ID.
+      operationId: deleteSearchJob
+      parameters:
+      - description: The identifier of the search job to retrieve.
+        explode: false
+        in: path
+        name: searchJobId
+        required: true
+        schema:
+          example: 2207828B17FE1D99
+          type: string
+        style: simple
+      responses:
+        "200":
+          description: The search job has been successfully deleted.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Operation failed with an error.
+      summary: Delete a search job.
+      tags: []
+    get:
+      description: Get the status for a search job by job ID.
+      operationId: getSearchJobStatus
+      parameters:
+      - description: The identifier of the search job to retrieve.
+        explode: false
+        in: path
+        name: searchJobId
+        required: true
+        schema:
+          example: 2207828B17FE1D99
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchJobState'
+          description: The status for the specified search job.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Operation failed with an error.
+      summary: Get status for a search job.
+      tags: []
+  /v1/search/jobs/{searchJobId}/messages:
+    get:
+      description: Fetch the messages found by a search job using pagination.
+      operationId: getSearchJobMessages
+      parameters:
+      - description: The identifier of the search job to retrieve.
+        explode: false
+        in: path
+        name: searchJobId
+        required: true
+        schema:
+          example: 2207828B17FE1D99
+          type: string
+        style: simple
+      - description: The position from where to start the search operation.
+        explode: true
+        in: query
+        name: offset
+        required: true
+        schema:
+          type: boolean
+        style: form
+      - description: Limit the number of messages returned in the response. The number
+          of messages returned may be less than the `limit`.
+        explode: true
+        in: query
+        name: limit
+        required: true
+        schema:
+          type: boolean
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchJobMessages'
+          description: The messages from the specified search job.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Operation failed with an error.
+      summary: Fetch messages found by a search job.
+      tags: []
+  /v1/search/jobs/{searchJobId}/records:
+    get:
+      description: Fetch the records produced by a search job using pagination.
+      operationId: getSearchJobRecords
+      parameters:
+      - description: The identifier of the search job to retrieve.
+        explode: false
+        in: path
+        name: searchJobId
+        required: true
+        schema:
+          example: 2207828B17FE1D99
+          type: string
+        style: simple
+      - description: The position from where to start the search operation.
+        explode: true
+        in: query
+        name: offset
+        required: true
+        schema:
+          type: boolean
+        style: form
+      - description: Limit the number of records returned in the response. The number
+          of records returned may be less than the `limit`.
+        explode: true
+        in: query
+        name: limit
+        required: true
+        schema:
+          type: boolean
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchJobRecords'
+          description: The records from the specified search job.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Operation failed with an error.
+      summary: Fetch records produced by a search job.
+      tags: []
+components:
+  schemas:
+    HistogramBucket:
+      description: Vertical slice for time series data.
+      example:
+        length: 6
+        count: 1
+        startTimestamp: 5
+      properties:
+        length:
+          description: Width of the bucket in milliseconds.
+          type: integer
+        count:
+          description: Number of messages in the bucket.
+          type: integer
+        startTimestamp:
+          description: The start timestamp of the bucket in milliseconds.
+          type: integer
+      type: object
+    SearchJobMessages:
+      description: Search Job raw log messages.
+      example:
+        messages:
+        - map:
+            _blockid: -9223372036854775669
+            _messagetime: "1359407350333"
+            _raw: '2013-01-28 13:09:10,333 -0800 INFO  [module=SERVICE] [logger=util.scala.zk.discovery.AWSServiceRegistry]
+              [thread=pool-1-thread-1] FINISHED findRunningInstances(ListBuffer((Service:
+              name: elasticache-1, defaultProps: Map()), (Service: name: userAndOrgCache,
+              defaultProps: Map()), (Service: name: rds_cloudcollector, defaultProps:
+              Map()))) returning Map((Service: name: elasticache-1, defaultProps:
+              Map()) -> [], (Service: name: userAndOrgCache, defaultProps: Map())
+              -> [], (Service: name: rds_cloudcollector, defaultProps: Map()) -> [])
+              after 1515 ms'
+            _collectorid: "1579"
+            _sourceid: "1640"
+            _collector: local
+            _sourcehost: Chiapet.local
+            _messagecount: "2044"
+            _messageid: -9223372036854773763
+            _sourcename: /Users/christian/Development/sumo/ops/assemblies/latest/service-20.1-SNAPSHOT/logs/service.log
+            _size: "549"
+            _receipttime: "1359407350899"
+            _sourcecategory: service
+            _format: plain:atp:o:0:l:29:p:yyyy-MM-dd HH:mm:ss,SSS ZZZZ
+            _source: service
+        - map:
+            _blockid: -9223372036854775669
+            _messagetime: "1359407350333"
+            _raw: '2013-01-28 13:09:10,333 -0800 INFO  [module=SERVICE] [logger=util.scala.zk.discovery.AWSServiceRegistry]
+              [thread=pool-1-thread-1] FINISHED findRunningInstances(ListBuffer((Service:
+              name: elasticache-1, defaultProps: Map()), (Service: name: userAndOrgCache,
+              defaultProps: Map()), (Service: name: rds_cloudcollector, defaultProps:
+              Map()))) returning Map((Service: name: elasticache-1, defaultProps:
+              Map()) -> [], (Service: name: userAndOrgCache, defaultProps: Map())
+              -> [], (Service: name: rds_cloudcollector, defaultProps: Map()) -> [])
+              after 1515 ms'
+            _collectorid: "1579"
+            _sourceid: "1640"
+            _collector: local
+            _sourcehost: Chiapet.local
+            _messagecount: "2044"
+            _messageid: -9223372036854773763
+            _sourcename: /Users/christian/Development/sumo/ops/assemblies/latest/service-20.1-SNAPSHOT/logs/service.log
+            _size: "549"
+            _receipttime: "1359407350899"
+            _sourcecategory: service
+            _format: plain:atp:o:0:l:29:p:yyyy-MM-dd HH:mm:ss,SSS ZZZZ
+            _source: service
+        fields:
+        - keyField: true
+          name: name
+          fieldType: fieldType
+        - keyField: true
+          name: name
+          fieldType: fieldType
+      properties:
+        fields:
+          items:
+            $ref: '#/components/schemas/SearchJobField'
+          type: array
+        messages:
+          items:
+            $ref: '#/components/schemas/SearchJobMessagesMap'
+          type: array
+      type: object
+    SearchJobField:
+      description: Search Job field.
+      example:
+        keyField: true
+        name: name
+        fieldType: fieldType
+      properties:
+        name:
+          type: string
+        fieldType:
+          type: string
+        keyField:
+          type: boolean
+      type: object
+    SearchJobMessagesMap:
+      example:
+        map:
+          _blockid: -9223372036854775669
+          _messagetime: "1359407350333"
+          _raw: '2013-01-28 13:09:10,333 -0800 INFO  [module=SERVICE] [logger=util.scala.zk.discovery.AWSServiceRegistry]
+            [thread=pool-1-thread-1] FINISHED findRunningInstances(ListBuffer((Service:
+            name: elasticache-1, defaultProps: Map()), (Service: name: userAndOrgCache,
+            defaultProps: Map()), (Service: name: rds_cloudcollector, defaultProps:
+            Map()))) returning Map((Service: name: elasticache-1, defaultProps: Map())
+            -> [], (Service: name: userAndOrgCache, defaultProps: Map()) -> [], (Service:
+            name: rds_cloudcollector, defaultProps: Map()) -> []) after 1515 ms'
+          _collectorid: "1579"
+          _sourceid: "1640"
+          _collector: local
+          _sourcehost: Chiapet.local
+          _messagecount: "2044"
+          _messageid: -9223372036854773763
+          _sourcename: /Users/christian/Development/sumo/ops/assemblies/latest/service-20.1-SNAPSHOT/logs/service.log
+          _size: "549"
+          _receipttime: "1359407350899"
+          _sourcecategory: service
+          _format: plain:atp:o:0:l:29:p:yyyy-MM-dd HH:mm:ss,SSS ZZZZ
+          _source: service
+      properties:
+        map:
+          $ref: '#/components/schemas/SearchJobMessagesMap_map'
+      type: object
+    SearchJobRecords:
+      description: blah
+      example:
+        records:
+        - map:
+            _sourceCategory: service
+            _count: "90"
+        - map:
+            _sourceCategory: service
+            _count: "90"
+        fields:
+        - keyField: true
+          name: name
+          fieldType: fieldType
+        - keyField: true
+          name: name
+          fieldType: fieldType
+      properties:
+        fields:
+          items:
+            $ref: '#/components/schemas/SearchJobField'
+          type: array
+        records:
+          items:
+            $ref: '#/components/schemas/SearchJobRecordsMap'
+          type: array
+      type: object
+    SearchJobRecordsMap:
+      example:
+        map:
+          _sourceCategory: service
+          _count: "90"
+      properties:
+        map:
+          $ref: '#/components/schemas/SearchJobRecordsMap_map'
+      type: object
+    SearchJobState:
+      description: State representation for a search job.
+      example:
+        histogramBuckets:
+        - length: 6
+          count: 1
+          startTimestamp: 5
+        - length: 6
+          count: 1
+          startTimestamp: 5
+        pendingWarnings:
+        - ""
+        - ""
+        messageCount: 0
+        recordCount: 5
+        state: NOT STARTED
+        pendingErrors:
+        - ""
+        - ""
+      properties:
+        state:
+          description: Search job state.
+          enum:
+          - NOT STARTED
+          - GATHERING RESULTS
+          - FORCE PAUSED
+          - DONE GATHERING RESULTS
+          - CANCELLED
+          type: string
+        messageCount:
+          description: The number of raw messages found so far.
+          type: integer
+        histogramBuckets:
+          description: A list of histogram buckets.
+          items:
+            $ref: '#/components/schemas/HistogramBucket'
+          type: array
+        pendingErrors:
+          items: {}
+          type: array
+        pendingWarnings:
+          items: {}
+          type: array
+        recordCount:
+          description: The number of aggregated records produced so far.
+          type: integer
+      type: object
+    ErrorResponse:
+      properties:
+        id:
+          description: An identifier for the error; this is unique to the specific
+            API request.
+          example: IUUQI-DGH5I-TJ045
+          type: string
+        errors:
+          description: A list of one or more causes of the error.
+          example:
+          - code: auth:password_too_short
+            message: Your password was too short.
+          - code: auth:password_character_classes
+            message: Your password did not contain any non-alphanumeric characters
+          items:
+            $ref: '#/components/schemas/ErrorDescription'
+          type: array
+      required:
+      - errors
+      - id
+      type: object
+    ErrorDescription:
+      properties:
+        code:
+          description: An error code describing the type of error.
+          example: auth:password_too_short
+          type: string
+        message:
+          description: A short English-language description of the error.
+          example: Your password was too short.
+          type: string
+        detail:
+          description: An optional fuller English-language description of the error.
+          example: Your password was 5 characters long, the minimum length is 12 characters.
+            See http://example.com/password for more information.
+          type: string
+        meta:
+          description: An optional list of metadata about the error.
+          example:
+            minLength: 12
+            actualLength: 5
+          type: object
+      required:
+      - code
+      - message
+      type: object
+    SearchJobMessagesMap_map:
+      example:
+        _blockid: -9223372036854775669
+        _messagetime: "1359407350333"
+        _raw: '2013-01-28 13:09:10,333 -0800 INFO  [module=SERVICE] [logger=util.scala.zk.discovery.AWSServiceRegistry]
+          [thread=pool-1-thread-1] FINISHED findRunningInstances(ListBuffer((Service:
+          name: elasticache-1, defaultProps: Map()), (Service: name: userAndOrgCache,
+          defaultProps: Map()), (Service: name: rds_cloudcollector, defaultProps:
+          Map()))) returning Map((Service: name: elasticache-1, defaultProps: Map())
+          -> [], (Service: name: userAndOrgCache, defaultProps: Map()) -> [], (Service:
+          name: rds_cloudcollector, defaultProps: Map()) -> []) after 1515 ms'
+        _collectorid: "1579"
+        _sourceid: "1640"
+        _collector: local
+        _sourcehost: Chiapet.local
+        _messagecount: "2044"
+        _messageid: -9223372036854773763
+        _sourcename: /Users/christian/Development/sumo/ops/assemblies/latest/service-20.1-SNAPSHOT/logs/service.log
+        _size: "549"
+        _receipttime: "1359407350899"
+        _sourcecategory: service
+        _format: plain:atp:o:0:l:29:p:yyyy-MM-dd HH:mm:ss,SSS ZZZZ
+        _source: service
+      properties:
+        _receipttime:
+          example: "1359407350899"
+          type: string
+        _source:
+          example: service
+          type: string
+        _collector:
+          example: local
+          type: string
+        _format:
+          example: plain:atp:o:0:l:29:p:yyyy-MM-dd HH:mm:ss,SSS ZZZZ
+          type: string
+        _blockid:
+          example: -9223372036854775669
+          type: string
+        _messageid:
+          example: -9223372036854773763
+          type: string
+        _messagetime:
+          example: "1359407350333"
+          type: string
+        _collectorid:
+          example: "1579"
+          type: string
+        _sourcename:
+          example: /Users/christian/Development/sumo/ops/assemblies/latest/service-20.1-SNAPSHOT/logs/service.log
+          type: string
+        _sourcehost:
+          example: Chiapet.local
+          type: string
+        _raw:
+          example: '2013-01-28 13:09:10,333 -0800 INFO  [module=SERVICE] [logger=util.scala.zk.discovery.AWSServiceRegistry]
+            [thread=pool-1-thread-1] FINISHED findRunningInstances(ListBuffer((Service:
+            name: elasticache-1, defaultProps: Map()), (Service: name: userAndOrgCache,
+            defaultProps: Map()), (Service: name: rds_cloudcollector, defaultProps:
+            Map()))) returning Map((Service: name: elasticache-1, defaultProps: Map())
+            -> [], (Service: name: userAndOrgCache, defaultProps: Map()) -> [], (Service:
+            name: rds_cloudcollector, defaultProps: Map()) -> []) after 1515 ms'
+          type: string
+        _size:
+          example: "549"
+          type: string
+        _sourcecategory:
+          example: service
+          type: string
+        _sourceid:
+          example: "1640"
+          type: string
+        _messagecount:
+          example: "2044"
+          type: string
+      type: object
+    SearchJobRecordsMap_map:
+      example:
+        _sourceCategory: service
+        _count: "90"
+      properties:
+        _count:
+          example: "90"
+          type: string
+        _sourceCategory:
+          example: service
+          type: string
+      type: object
