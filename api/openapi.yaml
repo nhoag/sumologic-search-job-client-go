@@ -26,7 +26,7 @@ servers:
 - description: US2 deployment API server
   url: https://api.us2.sumologic.com/api/
 security:
-- basicAuth: []
+- BasicAuth: []
 paths:
   /v1/search/jobs:
     post:
@@ -533,3 +533,7 @@ components:
           example: service
           type: string
       type: object
+  securitySchemes:
+    BasicAuth:
+      scheme: basic
+      type: http
