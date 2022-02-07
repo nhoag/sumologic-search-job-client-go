@@ -32,6 +32,13 @@ paths:
     post:
       description: Initiate a Sumo Logic Search Job.
       operationId: createSearchJob
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SearchJobDefinition'
+        description: Create Search Job request body.
+        required: true
       responses:
         "202":
           description: The search job has been successfully created.
@@ -273,6 +280,36 @@ components:
           items:
             $ref: '#/components/schemas/SearchJobMessagesMap'
           type: array
+      type: object
+    SearchJobDefinition:
+      description: Search job definition.
+      example:
+        byReceiptTime: false
+        query: '| count _sourceCategory'
+        timeZone: UTC
+        from: 2019-05-03T12:00:00
+        to: 2019-05-03T12:05:00
+      properties:
+        query:
+          description: Search query.
+          example: '| count _sourceCategory'
+          type: string
+        from:
+          description: Search start time.
+          example: 2019-05-03T12:00:00
+          type: string
+        to:
+          description: Search end time.
+          example: 2019-05-03T12:05:00
+          type: string
+        timeZone:
+          description: Timezone context for search.
+          example: UTC
+          type: string
+        byReceiptTime:
+          default: false
+          description: Use the receipt time rather than timestamps log messages.
+          type: boolean
       type: object
     SearchJobField:
       description: Search Job field.

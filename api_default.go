@@ -30,8 +30,14 @@ type DefaultApiService service
 type ApiCreateSearchJobRequest struct {
 	ctx context.Context
 	ApiService *DefaultApiService
+	searchJobDefinition *SearchJobDefinition
 }
 
+// Create Search Job request body.
+func (r ApiCreateSearchJobRequest) SearchJobDefinition(searchJobDefinition SearchJobDefinition) ApiCreateSearchJobRequest {
+	r.searchJobDefinition = &searchJobDefinition
+	return r
+}
 
 func (r ApiCreateSearchJobRequest) Execute() (*http.Response, error) {
 	return r.ApiService.CreateSearchJobExecute(r)
@@ -70,9 +76,12 @@ func (a *DefaultApiService) CreateSearchJobExecute(r ApiCreateSearchJobRequest) 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
+	if r.searchJobDefinition == nil {
+		return nil, reportError("searchJobDefinition is required and must be specified")
+	}
 
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -88,6 +97,8 @@ func (a *DefaultApiService) CreateSearchJobExecute(r ApiCreateSearchJobRequest) 
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
+	// body params
+	localVarPostBody = r.searchJobDefinition
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return nil, err

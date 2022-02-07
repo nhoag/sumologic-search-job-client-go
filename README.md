@@ -91,6 +91,7 @@ Class | Method | HTTP request | Description
  - [ErrorDescription](docs/ErrorDescription.md)
  - [ErrorResponse](docs/ErrorResponse.md)
  - [HistogramBucket](docs/HistogramBucket.md)
+ - [SearchJobDefinition](docs/SearchJobDefinition.md)
  - [SearchJobField](docs/SearchJobField.md)
  - [SearchJobMessages](docs/SearchJobMessages.md)
  - [SearchJobMessagesMap](docs/SearchJobMessagesMap.md)

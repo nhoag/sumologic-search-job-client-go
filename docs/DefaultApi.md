@@ -14,7 +14,7 @@ Method | HTTP request | Description
 
 ## CreateSearchJob
 
-> CreateSearchJob(ctx).Execute()
+> CreateSearchJob(ctx).SearchJobDefinition(searchJobDefinition).Execute()
 
 Create a Search Job.
 
@@ -33,10 +33,11 @@ import (
 )
 
 func main() {
+    searchJobDefinition := *openapiclient.NewSearchJobDefinition() // SearchJobDefinition | Create Search Job request body.
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.DefaultApi.CreateSearchJob(context.Background()).Execute()
+    resp, r, err := apiClient.DefaultApi.CreateSearchJob(context.Background()).SearchJobDefinition(searchJobDefinition).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `DefaultApi.CreateSearchJob``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -46,12 +47,16 @@ func main() {
 
 ### Path Parameters
 
-This endpoint does not need any parameter.
+
 
 ### Other Parameters
 
 Other parameters are passed through a pointer to a apiCreateSearchJobRequest struct via the builder pattern
 
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **searchJobDefinition** | [**SearchJobDefinition**](SearchJobDefinition.md) | Create Search Job request body. | 
 
 ### Return type
 
@@ -63,7 +68,7 @@ Other parameters are passed through a pointer to a apiCreateSearchJobRequest str
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
+- **Content-Type**: application/json
 - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
