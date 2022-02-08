@@ -21,7 +21,7 @@ type HistogramBucket struct {
 	// Number of messages in the bucket.
 	Count *int32 `json:"count,omitempty"`
 	// The start timestamp of the bucket in milliseconds.
-	StartTimestamp *int32 `json:"startTimestamp,omitempty"`
+	StartTimestamp *string `json:"startTimestamp,omitempty"`
 }
 
 // NewHistogramBucket instantiates a new HistogramBucket object
@@ -106,9 +106,9 @@ func (o *HistogramBucket) SetCount(v int32) {
 }
 
 // GetStartTimestamp returns the StartTimestamp field value if set, zero value otherwise.
-func (o *HistogramBucket) GetStartTimestamp() int32 {
+func (o *HistogramBucket) GetStartTimestamp() string {
 	if o == nil || o.StartTimestamp == nil {
-		var ret int32
+		var ret string
 		return ret
 	}
 	return *o.StartTimestamp
@@ -116,7 +116,7 @@ func (o *HistogramBucket) GetStartTimestamp() int32 {
 
 // GetStartTimestampOk returns a tuple with the StartTimestamp field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *HistogramBucket) GetStartTimestampOk() (*int32, bool) {
+func (o *HistogramBucket) GetStartTimestampOk() (*string, bool) {
 	if o == nil || o.StartTimestamp == nil {
 		return nil, false
 	}
@@ -132,8 +132,8 @@ func (o *HistogramBucket) HasStartTimestamp() bool {
 	return false
 }
 
-// SetStartTimestamp gets a reference to the given int32 and assigns it to the StartTimestamp field.
-func (o *HistogramBucket) SetStartTimestamp(v int32) {
+// SetStartTimestamp gets a reference to the given string and assigns it to the StartTimestamp field.
+func (o *HistogramBucket) SetStartTimestamp(v string) {
 	o.StartTimestamp = &v
 }
 

@@ -6,7 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Length** | Pointer to **int32** | Width of the bucket in milliseconds. | [optional] 
 **Count** | Pointer to **int32** | Number of messages in the bucket. | [optional] 
-**StartTimestamp** | Pointer to **int32** | The start timestamp of the bucket in milliseconds. | [optional] 
+**StartTimestamp** | Pointer to **string** | The start timestamp of the bucket in milliseconds. | [optional] 
 
 ## Methods
 
@@ -79,20 +79,20 @@ HasCount returns a boolean if a field has been set.
 
 ### GetStartTimestamp
 
-`func (o *HistogramBucket) GetStartTimestamp() int32`
+`func (o *HistogramBucket) GetStartTimestamp() string`
 
 GetStartTimestamp returns the StartTimestamp field if non-nil, zero value otherwise.
 
 ### GetStartTimestampOk
 
-`func (o *HistogramBucket) GetStartTimestampOk() (*int32, bool)`
+`func (o *HistogramBucket) GetStartTimestampOk() (*string, bool)`
 
 GetStartTimestampOk returns a tuple with the StartTimestamp field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetStartTimestamp
 
-`func (o *HistogramBucket) SetStartTimestamp(v int32)`
+`func (o *HistogramBucket) SetStartTimestamp(v string)`
 
 SetStartTimestamp sets StartTimestamp field to given value.
 

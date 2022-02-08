@@ -212,7 +212,7 @@ components:
           type: integer
         startTimestamp:
           description: The start timestamp of the bucket in milliseconds.
-          type: integer
+          type: string
       type: object
     SearchJobMessages:
       description: Search Job raw log messages.
