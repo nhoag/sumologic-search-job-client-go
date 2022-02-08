@@ -166,8 +166,8 @@ import (
 
 func main() {
     searchJobId := "2207828B17FE1D99" // string | The identifier of the search job to retrieve.
-    offset := true // bool | The position from where to start the search operation.
-    limit := true // bool | Limit the number of messages returned in the response. The number of messages returned may be less than the `limit`.
+    offset := int32(56) // int32 | The position from where to start the search operation.
+    limit := int32(56) // int32 | Limit the number of messages returned in the response. The number of messages returned may be less than the `limit`.
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
@@ -197,8 +197,8 @@ Other parameters are passed through a pointer to a apiGetSearchJobMessagesReques
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
- **offset** | **bool** | The position from where to start the search operation. | 
- **limit** | **bool** | Limit the number of messages returned in the response. The number of messages returned may be less than the &#x60;limit&#x60;. | 
+ **offset** | **int32** | The position from where to start the search operation. | 
+ **limit** | **int32** | Limit the number of messages returned in the response. The number of messages returned may be less than the &#x60;limit&#x60;. | 
 
 ### Return type
 
@@ -240,8 +240,8 @@ import (
 
 func main() {
     searchJobId := "2207828B17FE1D99" // string | The identifier of the search job to retrieve.
-    offset := true // bool | The position from where to start the search operation.
-    limit := true // bool | Limit the number of records returned in the response. The number of records returned may be less than the `limit`.
+    offset := int32(56) // int32 | The position from where to start the search operation.
+    limit := int32(56) // int32 | Limit the number of records returned in the response. The number of records returned may be less than the `limit`.
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
@@ -271,8 +271,8 @@ Other parameters are passed through a pointer to a apiGetSearchJobRecordsRequest
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
- **offset** | **bool** | The position from where to start the search operation. | 
- **limit** | **bool** | Limit the number of records returned in the response. The number of records returned may be less than the &#x60;limit&#x60;. | 
+ **offset** | **int32** | The position from where to start the search operation. | 
+ **limit** | **int32** | Limit the number of records returned in the response. The number of records returned may be less than the &#x60;limit&#x60;. | 
 
 ### Return type
 

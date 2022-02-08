@@ -123,7 +123,7 @@ paths:
         name: offset
         required: true
         schema:
-          type: boolean
+          type: integer
         style: form
       - description: Limit the number of messages returned in the response. The number
           of messages returned may be less than the `limit`.
@@ -132,7 +132,7 @@ paths:
         name: limit
         required: true
         schema:
-          type: boolean
+          type: integer
         style: form
       responses:
         "200":
@@ -169,7 +169,7 @@ paths:
         name: offset
         required: true
         schema:
-          type: boolean
+          type: integer
         style: form
       - description: Limit the number of records returned in the response. The number
           of records returned may be less than the `limit`.
@@ -178,7 +178,7 @@ paths:
         name: limit
         required: true
         schema:
-          type: boolean
+          type: integer
         style: form
       responses:
         "200":

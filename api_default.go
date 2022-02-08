@@ -238,17 +238,17 @@ type ApiGetSearchJobMessagesRequest struct {
 	ctx context.Context
 	ApiService *DefaultApiService
 	searchJobId string
-	offset *bool
-	limit *bool
+	offset *int32
+	limit *int32
 }
 
 // The position from where to start the search operation.
-func (r ApiGetSearchJobMessagesRequest) Offset(offset bool) ApiGetSearchJobMessagesRequest {
+func (r ApiGetSearchJobMessagesRequest) Offset(offset int32) ApiGetSearchJobMessagesRequest {
 	r.offset = &offset
 	return r
 }
 // Limit the number of messages returned in the response. The number of messages returned may be less than the &#x60;limit&#x60;.
-func (r ApiGetSearchJobMessagesRequest) Limit(limit bool) ApiGetSearchJobMessagesRequest {
+func (r ApiGetSearchJobMessagesRequest) Limit(limit int32) ApiGetSearchJobMessagesRequest {
 	r.limit = &limit
 	return r
 }
@@ -369,17 +369,17 @@ type ApiGetSearchJobRecordsRequest struct {
 	ctx context.Context
 	ApiService *DefaultApiService
 	searchJobId string
-	offset *bool
-	limit *bool
+	offset *int32
+	limit *int32
 }
 
 // The position from where to start the search operation.
-func (r ApiGetSearchJobRecordsRequest) Offset(offset bool) ApiGetSearchJobRecordsRequest {
+func (r ApiGetSearchJobRecordsRequest) Offset(offset int32) ApiGetSearchJobRecordsRequest {
 	r.offset = &offset
 	return r
 }
 // Limit the number of records returned in the response. The number of records returned may be less than the &#x60;limit&#x60;.
-func (r ApiGetSearchJobRecordsRequest) Limit(limit bool) ApiGetSearchJobRecordsRequest {
+func (r ApiGetSearchJobRecordsRequest) Limit(limit int32) ApiGetSearchJobRecordsRequest {
 	r.limit = &limit
 	return r
 }
