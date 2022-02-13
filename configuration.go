@@ -1,7 +1,7 @@
 /*
 Sumo Logic API
 
-YOLO! 
+The Search Job API provides third-party scripts and applications access to your log data. The API follows Representational State Transfer (REST) patterns and is optimized for ease of use and consistency. 
 
 API version: 1.0.0
 */
